@@ -6,7 +6,6 @@ import { CRS } from 'leaflet';
 function App() {
 	return (
 		<div className="App">
-			{/* <img src="/assets/download.jpg" /> */}
 			<MapContainer
 				id="map"
 				center={[0, 0]}
@@ -18,7 +17,6 @@ function App() {
 				<TileLayer
 					attribution="sovnheim.io"
 					url="/assets/tiles/{z}/{x}/{y}.png"
-					// url="/assets/download.jpg"
 				/>
 			</MapContainer>
 		</div>
