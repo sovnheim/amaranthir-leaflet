@@ -1,56 +1,33 @@
 import './App.css';
 import 'leaflet/dist/leaflet.css';
-import {
-	MapContainer,
-	Marker,
-	Popup,
-	TileLayer,
-	useMap,
-	useMapEvents,
-} from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import { CRS, LatLngBounds } from 'leaflet';
 
-function MapClickEvent() {
-	const map = useMap();
-	useMapEvents({
-		click(event) {
-			console.log(
-				'lat',
-				event.latlng.lat,
-				'lng',
-				event.latlng.lng,
-				'zoom',
-				map.getZoom()
-			);
-		},
-	});
-	return <div></div>;
-}
+import Markers from './components/Markers';
+import MapClickEvent from './components/MapClickEvent';
 
 function App() {
-	const bounds = new LatLngBounds([1000, 1000], [0, 0]);
+	const bounds = new LatLngBounds([0, 0], [-240, 240]);
 
 	return (
 		<div className="App">
 			<MapContainer
 				id="map"
-				center={[0, 0]}
-				zoom={2}
-				minZoom={-5}
+				center={[-147, 146]}
+				zoom={3}
+				minZoom={0}
 				maxZoom={5}
 				scrollWheelZoom={true}
 				crs={CRS.Simple}
-				bounds={bounds}
+				maxBounds={bounds}
 			>
 				<TileLayer
 					attribution="sovnheim.io"
 					url="/assets/tiles/{z}/{x}/{y}.png"
 				/>
 
+				<Markers />
 				<MapClickEvent />
-				{/* <Marker position={[120, 120]}>
-					<Popup>You are here</Popup>
-				</Marker> */}
 			</MapContainer>
 		</div>
 	);
