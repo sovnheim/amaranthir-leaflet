@@ -11,11 +11,13 @@ function App() {
 
 	return (
 		<div className="App">
+			{/* <Button variant="contained">Hello world</Button> */}
+
 			<MapContainer
 				id="map"
 				center={[-147, 146]}
 				zoom={3}
-				minZoom={0}
+				minZoom={2}
 				maxZoom={5}
 				scrollWheelZoom={true}
 				crs={CRS.Simple}
