@@ -1,21 +1,9 @@
 import { useState, useEffect } from 'react';
 import { LatLng, Icon } from 'leaflet';
-import { Marker, Popup } from 'react-leaflet';
+import { LayerGroup, LayersControl, Marker, Tooltip } from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-
-type Location = {
-	id: number;
-	name: string;
-	lat: number;
-	lng: number;
-	layer: string[];
-	description: string;
-};
-
-type LocationApiResponse = {
-	locations: Location[];
-};
+import { LocationApiResponse } from '../types';
 
 function Markers() {
 	const DefaultIcon = new Icon({
@@ -24,9 +12,11 @@ function Markers() {
 		iconAnchor: [12, 40],
 	});
 
-	const [markerData, setMarkerData] = useState({
+	const [locationData, setLocationData] = useState({
 		locations: [],
 	} as LocationApiResponse);
+
+	const [layers, setLayers] = useState([] as string[]);
 
 	useEffect(() => {
 		fetch(
@@ -34,33 +24,47 @@ function Markers() {
 		)
 			.then((response) => response.json())
 			.then((json: LocationApiResponse) => {
-				setMarkerData(json);
+				setLocationData(json);
+				// TODO define layers from response from the API
+				setLayers(['Towns', 'Capitals']);
 			})
 			.catch(() => {
 				throw new Error('Could not retrieve marker data');
 			});
 	}, []);
 
-	if (markerData.locations.length == 0) {
-		return <div></div>;
-	} else {
+	if (locationData.locations.length != 0) {
 		return (
-			<div>
-				{markerData.locations.map((location) => {
-					if (location.lat && location.lng) {
-						return (
-							<Marker
-								key={location.id}
-								position={new LatLng(location.lat, location.lng)}
-								icon={DefaultIcon}
-							>
-								<Popup>{location.name}</Popup>
-							</Marker>
-						);
-					}
+			<LayersControl position="topright">
+				{layers.map((currentLayer, key) => {
+					return (
+						<LayersControl.Overlay key={key} checked name={currentLayer}>
+							<LayerGroup>
+								{locationData.locations.map((location) => {
+									if (
+										location.layer === currentLayer &&
+										location.lat &&
+										location.lng
+									) {
+										return (
+											<Marker
+												key={location.id}
+												position={new LatLng(location.lat, location.lng)}
+												icon={DefaultIcon}
+											>
+												<Tooltip key={location.id}>{location.name}</Tooltip>
+											</Marker>
+										);
+									}
+								})}
+							</LayerGroup>
+						</LayersControl.Overlay>
+					);
 				})}
-			</div>
+			</LayersControl>
 		);
+	} else {
+		return <div></div>;
 	}
 }
 

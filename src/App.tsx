@@ -5,6 +5,7 @@ import { CRS, LatLngBounds } from 'leaflet';
 
 import Markers from './components/Markers';
 import MapClickEvent from './components/MapClickEvent';
+import MapLayers from './components/MapLayers';
 
 function App() {
 	const bounds = new LatLngBounds([0, 0], [-240, 240]);
@@ -21,12 +22,13 @@ function App() {
 				crs={CRS.Simple}
 				maxBounds={bounds}
 			>
+				<MapLayers></MapLayers>
+
 				<TileLayer
 					attribution="sovnheim.io"
 					url="/assets/tiles/{z}/{x}/{y}.png"
 				/>
 
-				<Markers />
 				<MapClickEvent />
 			</MapContainer>
 		</div>

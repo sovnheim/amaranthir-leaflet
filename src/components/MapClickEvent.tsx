@@ -5,6 +5,7 @@ function MapClickEvent() {
 
 	useMapEvents({
 		click(event) {
+			// eslint-disable-next-line no-console
 			console.log(
 				'lat',
 				event.latlng.lat,
