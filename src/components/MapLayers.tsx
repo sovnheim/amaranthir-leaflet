@@ -1,19 +1,27 @@
-import { ImageOverlay } from 'react-leaflet';
+import { ImageOverlay, useMapEvents } from 'react-leaflet';
 import { LatLngBounds } from 'leaflet';
 import Markers from './Markers';
+import { useState } from 'react';
 
 function MapLayers() {
-	// TODO: Pass LatLngBounds with the properties of the element
 	const bounds = new LatLngBounds([0, 0], [-240, 240]);
 
-	const layersControlOptions = ['Towns', 'Capitals', 'Countries'];
+	const [zoomLevel, setZoomLevel] = useState(0);
+
+	const map = useMapEvents({
+		zoom() {
+			setZoomLevel(map.getZoom());
+		},
+	});
 
 	return (
 		<div>
-			<ImageOverlay
-				url="/assets/barail_labels.png"
-				bounds={bounds}
-			></ImageOverlay>
+			{zoomLevel <= 4 ? (
+				<ImageOverlay
+					url="/assets/barail_labels.png"
+					bounds={bounds}
+				></ImageOverlay>
+			) : null}
 			<Markers />
 		</div>
 	);

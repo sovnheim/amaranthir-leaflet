@@ -1,32 +1,27 @@
 import './App.css';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer } from 'react-leaflet';
-import { CRS, LatLngBounds } from 'leaflet';
+import { CRS } from 'leaflet';
 
-import Markers from './components/Markers';
 import MapClickEvent from './components/MapClickEvent';
-import MapLayers from './components/MapLayers';
 
 function App() {
-	const bounds = new LatLngBounds([0, 0], [-240, 240]);
-
 	return (
 		<div className="App">
 			<MapContainer
 				id="map"
-				center={[-147, 146]}
-				zoom={3}
+				center={[-85, 85]}
+				zoom={4}
 				minZoom={0}
-				maxZoom={5}
+				maxZoom={6}
 				scrollWheelZoom={true}
 				crs={CRS.Simple}
-				maxBounds={bounds}
 			>
-				<MapLayers></MapLayers>
+				{/* <MapLayers></MapLayers> */}
 
 				<TileLayer
 					attribution="sovnheim.io"
-					url="/assets/tiles/{z}/{x}/{y}.png"
+					url="/assets/barail/{z}/{x}/{y}.png"
 				/>
 
 				<MapClickEvent />

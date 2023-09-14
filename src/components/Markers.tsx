@@ -26,6 +26,7 @@ function Markers() {
 			.then((json: LocationApiResponse) => {
 				setLocationData(json);
 				// TODO define layers from response from the API
+
 				setLayers(['Towns', 'Capitals']);
 			})
 			.catch(() => {
@@ -33,7 +34,7 @@ function Markers() {
 			});
 	}, []);
 
-	if (locationData.locations.length != 0) {
+	if (locationData.locations && locationData.locations.length != 0) {
 		return (
 			<LayersControl position="topright">
 				{layers.map((currentLayer, key) => {
