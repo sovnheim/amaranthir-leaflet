@@ -1,59 +1,74 @@
 import { useState, useEffect } from 'react';
-import { LatLng, Icon } from 'leaflet';
-import { LayerGroup, LayersControl, Marker, Tooltip } from 'react-leaflet';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import { LatLng } from 'leaflet';
+import {
+	LayerGroup,
+	LayersControl,
+	Marker,
+	Tooltip,
+	useMapEvents,
+} from 'react-leaflet';
+
 import { LocationApiResponse } from '../types';
+import { defaultIcon, displayLayers } from '../defaults';
 
 function Markers() {
-	const DefaultIcon = new Icon({
-		iconUrl: icon,
-		shadowUrl: iconShadow,
-		iconAnchor: [12, 40],
-	});
-
 	const [locationData, setLocationData] = useState({
-		locations: [],
+		results: [],
 	} as LocationApiResponse);
 
-	const [layers, setLayers] = useState([] as string[]);
+	const [zoomLevel, setZoomLevel] = useState(0);
+
+	const map = useMapEvents({
+		zoom() {
+			setZoomLevel(map.getZoom());
+		},
+	});
 
 	useEffect(() => {
-		fetch(
-			'https://api.sheety.co/840a078c9e89e6bc339c83b398bf8317/toaLocationsDb/locations'
-		)
+		fetch('https://api.sheetson.com/v2/sheets/locations', {
+			method: 'GET',
+			headers: {
+				'X-Spreadsheet-Id': '1ppDoTSdjjsRgKypnRwtAgRbmEgVJA52IAWiG8pqwuBg',
+				Authorization:
+					'Bearer 7HjZXmuhGDdJPY6YelSjjmGauFuEIyNInPIejUc4OcmtLcbl8egQeHnBZWs',
+			},
+		})
 			.then((response) => response.json())
 			.then((json: LocationApiResponse) => {
 				setLocationData(json);
-				// TODO define layers from response from the API
-
-				setLayers(['Towns', 'Capitals']);
 			})
 			.catch(() => {
 				throw new Error('Could not retrieve marker data');
 			});
 	}, []);
 
-	if (locationData.locations && locationData.locations.length != 0) {
+	// Prevent marker load before data is available
+	if (locationData.results && locationData.results.length != 0) {
 		return (
-			<LayersControl position="topright">
-				{layers.map((currentLayer, key) => {
+			<LayersControl>
+				{displayLayers.map((currentLayer, layerKey) => {
 					return (
-						<LayersControl.Overlay key={key} checked name={currentLayer}>
+						<LayersControl.Overlay
+							key={layerKey}
+							checked
+							name={currentLayer.name}
+						>
 							<LayerGroup>
-								{locationData.locations.map((location) => {
+								{locationData.results.map((marker, locationKey) => {
 									if (
-										location.layer === currentLayer &&
-										location.lat &&
-										location.lng
+										marker.lat != '' &&
+										marker.lng != '' &&
+										marker.layer === currentLayer.name &&
+										zoomLevel <= currentLayer.maxZoom &&
+										zoomLevel >= currentLayer.minZoom
 									) {
 										return (
 											<Marker
-												key={location.id}
-												position={new LatLng(location.lat, location.lng)}
-												icon={DefaultIcon}
+												key={locationKey}
+												position={new LatLng(marker.lat, marker.lng)}
+												icon={defaultIcon}
 											>
-												<Tooltip key={location.id}>{location.name}</Tooltip>
+												<Tooltip key={marker.id}>{marker.name}</Tooltip>
 											</Marker>
 										);
 									}

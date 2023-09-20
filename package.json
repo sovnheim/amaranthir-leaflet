@@ -14,6 +14,7 @@
     "@types/node": "^16.18.46",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
+    "copy-paste": "^1.5.3",
     "leaflet": "^1.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -49,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@types/copy-paste": "^1.1.31",
     "@types/leaflet": "^1.9.3",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.0.0",

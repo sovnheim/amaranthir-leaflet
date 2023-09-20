@@ -4,6 +4,7 @@ import { MapContainer, TileLayer } from 'react-leaflet';
 import { CRS } from 'leaflet';
 
 import MapClickEvent from './components/MapClickEvent';
+import Markers from './components/Markers';
 
 function App() {
 	return (
@@ -17,8 +18,7 @@ function App() {
 				scrollWheelZoom={true}
 				crs={CRS.Simple}
 			>
-				{/* <MapLayers></MapLayers> */}
-
+				<Markers />
 				<TileLayer
 					attribution="sovnheim.io"
 					url="/assets/barail/{z}/{x}/{y}.png"

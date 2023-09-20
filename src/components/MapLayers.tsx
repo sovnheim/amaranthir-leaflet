@@ -22,7 +22,6 @@ function MapLayers() {
 					bounds={bounds}
 				></ImageOverlay>
 			) : null}
-			<Markers />
 		</div>
 	);
 }
