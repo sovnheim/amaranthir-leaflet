@@ -1,4 +1,4 @@
-import { Icon } from 'leaflet';
+import { Icon, LatLngBounds } from 'leaflet';
 import { DisplayLayers } from './types';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -21,3 +21,8 @@ export const displayLayers: DisplayLayers = [
 		maxZoom: 6,
 	},
 ];
+
+export const mapBounds = new LatLngBounds([
+	[0, 0],
+	[-156, 156],
+]);
