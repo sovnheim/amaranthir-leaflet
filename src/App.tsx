@@ -3,21 +3,28 @@ import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import { CRS } from 'leaflet';
 
+import MapClickEvent from './components/MapClickEvent';
+import Markers from './components/Markers';
+
 function App() {
 	return (
 		<div className="App">
 			<MapContainer
 				id="map"
-				center={[0, 0]}
-				zoom={2}
-				minZoom={2}
+				center={[-85, 85]}
+				zoom={4}
+				minZoom={0}
+				maxZoom={6}
 				scrollWheelZoom={true}
 				crs={CRS.Simple}
 			>
+				<Markers />
 				<TileLayer
 					attribution="sovnheim.io"
-					url="/assets/tiles/{z}/{x}/{y}.png"
+					url="/assets/barail/{z}/{x}/{y}.png"
 				/>
+
+				<MapClickEvent />
 			</MapContainer>
 		</div>
 	);
