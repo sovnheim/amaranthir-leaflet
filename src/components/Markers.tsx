@@ -9,7 +9,7 @@ import {
 } from 'react-leaflet';
 
 import { LocationApiResponse } from '../types';
-import { defaultIcon, displayLayers } from '../defaults';
+import { defaultIcon, displayLayers } from '../constants';
 
 function Markers() {
 	const [locationData, setLocationData] = useState({

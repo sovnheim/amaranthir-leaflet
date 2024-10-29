@@ -1,6 +1,5 @@
 import { ImageOverlay, useMapEvents } from 'react-leaflet';
 import { LatLngBounds } from 'leaflet';
-import Markers from './Markers';
 import { useState } from 'react';
 
 function MapLayers() {

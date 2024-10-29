@@ -5,6 +5,7 @@ import { CRS } from 'leaflet';
 
 import MapClickEvent from './components/MapClickEvent';
 import Markers from './components/Markers';
+import { mapBounds } from './constants';
 
 function App() {
 	return (
@@ -17,6 +18,8 @@ function App() {
 				maxZoom={6}
 				scrollWheelZoom={true}
 				crs={CRS.Simple}
+				maxBounds={mapBounds}
+				maxBoundsViscosity={0.1}
 			>
 				<Markers />
 				<TileLayer
